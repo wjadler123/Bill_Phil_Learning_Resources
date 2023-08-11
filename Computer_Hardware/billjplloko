@@ -1,0 +1,55 @@
+ lscpi -v on my computer
+
+what does allthis mean
+
+00:00.0 Host bridge: Intel Corporation Sky Lake-E DMI3 Registers (rev 04)
+        Subsystem: ASUSTeK Computer Inc. Sky Lake-E DMI3 Registers
+        Flags: fast devsel, NUMA node 0
+        Capabilities: <access denied>
+
+00:04.0 System peripheral: Intel Corporation Sky Lake-E CBDMA Registers (rev 04)
+        Subsystem: ASUSTeK Computer Inc. Sky Lake-E CBDMA Registers
+        Flags: bus master, fast devsel, latency 0, IRQ 39, NUMA node 0
+        Memory at 92f64000 (64-bit, non-prefetchable) [size=16K]
+        Capabilities: <access denied>
+        Kernel driver in use: ioatdma
+        Kernel modules: ioatdma
+
+00:04.1 System peripheral: Intel Corporation Sky Lake-E CBDMA Registers (rev 04)
+        Subsystem: Intel Corporation Sky Lake-E CBDMA Registers
+        Flags: bus master, fast devsel, latency 0, IRQ 42, NUMA node 0
+        Memory at 92f60000 (64-bit, non-prefetchable) [size=16K]
+        Capabilities: <access denied>
+        Kernel driver in use: ioatdma
+        Kernel modules: ioatdma
+
+00:04.2 System peripheral: Intel Corporation Sky Lake-E CBDMA Registers (rev 04)
+        Subsystem: Intel Corporation Sky Lake-E CBDMA Registers
+        Flags: bus master, fast devsel, latency 0, IRQ 39, NUMA node 0
+        Memory at 92f5c000 (64-bit, non-prefetchable) [size=16K]
+        Capabilities: <access denied>
+        Kernel driver in use: ioatdma
+        Kernel modules: ioatdma
+
+00:04.3 System peripheral: Intel Corporation Sky Lake-E CBDMA Registers (rev 04)
+        Subsystem: Intel Corporation Sky Lake-E CBDMA Registers
+        Flags: bus master, fast devsel, latency 0, IRQ 42, NUMA node 0
+        Memory at 92f58000 (64-bit, non-prefetchable) [size=16K]
+        Capabilities: <access denied>
+        Kernel driver in use: ioatdma
+        Kernel modules: ioatdma
+
+00:04.4 System peripheral: Intel Corporation Sky Lake-E CBDMA Registers (rev 04)
+        Subsystem: Intel Corporation Sky Lake-E CBDMA Registers
+        Flags: bus master, fast devsel, latency 0, IRQ 39, NUMA node 0
+        Memory at 92f54000 (64-bit, non-prefetchable) [size=16K]
+        Capabilities: <access denied>
+        Kernel driver in use: ioatdma
+        Kernel modules: ioatdma
+
+00:04.5 System peripheral: Intel Corporation Sky Lake-E CBDMA Registers (rev 04)
+        Subsystem: Intel Corporation Sky Lake-E CBDMA Registers
+        Flags: bus master, fast devsel, latency 0, IRQ 42, NUMA node 0
+        Memory at 92f50000 (64-bit, non-prefetchable) [size=16K]
+        Capabilities: <access denied>
+        Kernel driver in use: ioatdma
