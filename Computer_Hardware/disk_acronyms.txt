@@ -1,0 +1,120 @@
+Original Messsage : 7/16 
+
+so There's a lot of confusing terminology (or acronyms) around disks.
+
+https://www.reddit.com/r/osdev/comments/12ptti4/scsi_ata_ide_ahci_etc_how_do_they_relate/
+
+SAS, SATA, PATA, ATA, SCSI, NVMe, 
+IDE, AHCI, PCIe, ATAPI, ACS, 
+
+My understanding is this : 
+
+There are standards - which range from Commands, Programming Interfaces, and physical sets.e
+
+Standards -> 
+ATA (Defines all 3)
+SCSI (Doesn't define Programming Interface)
+
+Programming Interfaces -> 
+
+examples : AHCI -> SATA, NVMe ->Designed for Modern SSD , IDE -> Legacy ATA 
+typing in lspci -v , I can see my SATA drive has an AHCI device driver, and my SSD has an NVMe device driver. IDE appears to be some sort of legacy thing 
+
+I am quite confused what "Programming Interfaces" is exactly - I'm guessing this has to deal with what registers there are, how you interact with them,  things like error, mode, memory addresses setting for DMA,  R/W control, etc. so after you map the control registers to memory (I/O Mapping) -> you can interact with them.
+
+Here's a definition : 
+The lower byte of a Class Code, which identifies the specific register-level
+interface (if any) of a device Function, so that device-independent software can
+interact with the device
+https://pcisig.com/sites/default/files/files/PCI_Code-ID_r_1_11__v24_Jan_2019.pdf
+
+
+So control registers rather than electrical connections. 
+
+Command Sets -> Things like R/W, Erase, etc. I believe to interact with block storage.
+Command set may be the way to interact with a device driver, but I'm not 100% sure. 
+
+Are defined by standards
+ATA defines a standard to be used for PATA/SATA drives (ATA command set or ATACS for short)
+
+
+
+Physical Layers -> Electrical connections -> 
+SAS, SATA, PATA, PCIe?
+
+I think PCI express counts as the physical layer for NVMe SSD drives. 
+SATA and SAS are "electrically compatible" which means they can use the same electronics, they just require slightly different drivers. 
+SAS is the physical standard for SCSI drives
+
+SCSI : 
+SCSI doesn't define a programming standard 
+SAS is the common physical layer implementation. 
+iSCSI commands can be used for Storage Access Networks for lower infrastructure maintenance and higher latency and lower throughput (I believe)  than fibre channel SANs. 
+
+My best guess means, although I've never used a SAS drive because they aren't common for home computers, is that you may need seperate driver code for SCSI drives, but also there seemed to be a common SAS drive? 
+
+
+https://wiki.osdev.org/PCI
+
+You can see how the PCI controller knows what "Programming Interface" a device has. 
+
+Example: 
+
+Here is an ATA example:
+https://lateblt.tripod.com/atapi.htm
+
+ATA REgisters: (Related to Programming Interface)
+1F0 (Read and Write): Data Register
+1F1 (Read): Error Register
+1F1 (Write): Features Register
+1F2 (Read and Write): Sector Count Register
+1F3 (Read and Write): LBA Low Register
+1F4 (Read and Write): LBA Mid Register
+1F5 (Read and Write): LBA High Register
+1F6 (Read and Write): Drive/Head Register
+1F7 (Read): Status Register
+1F7 (Write): Command Register
+3F6 (Read): Alternate Status Register
+3F6 (Write): Device Control Register
+
+ATA Commands: (Related to Commands) 
+https://wiki.osdev.org/ATA_Command_Matrix
+How ATA Commands are implemented:
+1. Poll the status register until it indicates the device is not busy (BUSY will be set to 0)
+2. Disable interrupts (assembler "cli" command)
+3. Poll the status register until it indicates the device is ready (DRDY will be set to 1)
+4. Issue the command by outputting the command opcode to the command register
+5. Re-enable interrupts (assembler "sti" command)
+The following program is a relatively simple assembler program to run the ATA "IDENTIFY DRIVE" command, and print out the results of this command to the screen.
+
+
+More on NVME:
+https://nvmexpress.org/specifications/
+NVMe seems to be a whole bunch of specifications, one that specifies a programming interface, another that specifies a command set, as well as tons of other things. For example, finding the first bootable partition, 
+https://nvmexpress.org/wp-content/uploads/NVM-Express-Boot-Specification-2022.11.15-Ratified.pdf
+If you go to page 18, you can see a specification for booting over a PCIe bus (like my computer), It seems like the long way of saying "There must be an NVMe Driver in your boot firmware, that can detect and issue commands from basic system calls (read, write, open)" to a disk attached to the PCie bus.  This document also contains a bunch of information about booting from NVMe-oF (another part of NVMe protocol) and NVMe/TCP . Both of these deal with Storage Access Networks (SANs)
+
+Confusing "Computer Science" Sources -> 
+IDE vs SATA:
+https://www.diffen.com/difference/IDE_vs_SATA
+IDE is a protocol for register layout, and SATA is the physical electrical connections. But IDE is referring to legacy PATA drives compared to SATA drives in this instance. "
+https://www.diffen.com/difference/AHCI_vs_IDE
+This same website also chooses to publish and article that has another comparison with IDE with AHCI, which is a newer programming standard for SATA drives in particular. This comparison makes a lot more sense but you shouldn't have both these articles up. 
+
+
+
+
+Update : 8/10
+
+We were both Half RIght
+
+SATA seems to be both a Connector and A BUs.
+
+The wires are the SATA connection
+M2 seems to be a family of connections that can either attach to a PCIe or a SATA Bus.
+
+M2 is also different than a PCIe connector
+
+
+
+
